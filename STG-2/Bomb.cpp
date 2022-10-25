@@ -1,11 +1,6 @@
 #include "Bomb.h"
 
 
-#define BOMB_ANGLE_TYPE_CISCLE		0	//1秒間時間変化とともに急激な方向転換をし、その後ゆっくり時計周りの回転をつづける
-#define BOMB_ANGLE_TYPE_CISCLE_R	1	//1秒間時間変化とともに急激な方向転換をし、その後ゆっくり反時計周りの回転をつづける
-
-#define BOMB_SPEED_TYPE_SAME		0	//同じ速度を保つ(speed = 5)
-#define BOMB_SPEED_TYPE_SLOWER		1	//壱秒間speed = 5 その後speed = 3;
 
 extern int cWhite;
 
@@ -47,18 +42,21 @@ void Bomb::get_angle(){
 	switch (type.angle)
 	{
 		
-	case BOMB_ANGLE_TYPE_CISCLE:
+	case BOMB_ANGLE_TYPE_CIRCLE:
 		if (time < 1)
 			angle += (TAU / 4) * 0.05 * time;
 		else
 			angle += (TAU / 32) * 0.05;
 		break;
 		
-	case BOMB_ANGLE_TYPE_CISCLE_R:
+	case BOMB_ANGLE_TYPE_CIRCLE_R:
 		if (time < 1)
 			angle += (TAU / 4) * -0.05 * time;
 		else
 			angle += (TAU / 32) * -0.05;
+		break;
+	case BOMB_ANGLE_TYPE_SAME:
+		
 		break;
 	default:
 		break;
@@ -111,14 +109,14 @@ void Bomb::draw_debug_bomb() {
 }
 
 //Bomb 初期位置 量 速度の変化量(time当たり) 角度の変化量(time当たり) 反転(1 or -1)
-void make_circle(Bomb bomb[1000],POS pos,int amount, int change_speed, int change_angle,int reverse) {
+void make_circle(Bomb bomb[BOMB_MAX],POS pos,int amount, int change_speed, int change_angle,int reverse) {
 	int cnt_amount = 0;
 	while (cnt_amount != amount) {
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < BOMB_MAX; i++) {
 			if (bomb[i].isUse == false) {
 				bomb[i].isUse = true;
-				bomb[i].pos.x = 100;
-				bomb[i].pos.y = 100;
+				bomb[i].pos.x = pos.x;
+				bomb[i].pos.y = pos.y;
 				bomb[i].angle += (TAU / amount) * cnt_amount * reverse;
 				bomb[i].type.angle = change_angle;
 				bomb[i].type.speed = change_speed;
@@ -126,6 +124,25 @@ void make_circle(Bomb bomb[1000],POS pos,int amount, int change_speed, int chang
 			}
 			if (cnt_amount == amount)	break;
 
+		}
+	}
+}
+
+void make_beam(Bomb bomb[BOMB_MAX], POS pos, int amount, int change_speed, double angle , int change_angle) {
+	int cnt_amount = 0;
+	while (cnt_amount != amount) {
+		for (int i = 0; i < BOMB_MAX; i++) {
+			if (bomb[i].isUse == false) {
+				bomb[i].isUse = true;
+				bomb[i].pos.x = pos.x + ((double)amount - (double)cnt_amount) * bomb[i].size * cos(angle);
+				bomb[i].pos.y = pos.y + ((double)amount - (double)cnt_amount) * bomb[i].size * sin(angle);
+				bomb[i].angle = angle;
+				bomb[i].type.angle = change_angle;
+				bomb[i].type.speed = change_speed;
+				cnt_amount++;
+			}
+
+			if (cnt_amount == amount)	break;
 		}
 	}
 }
