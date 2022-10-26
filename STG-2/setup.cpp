@@ -43,7 +43,7 @@ bool Update() {
 }
 
 void Draw() {
-	DrawFormatString(1200, 700, GetColor(255, 255, 255), "%.1ffps", mFps);
+	DrawFormatString(1200, 690, GetColor(255, 255, 255), "%.1ffps", mFps);
 }
 
 void Wait() {

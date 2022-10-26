@@ -159,11 +159,13 @@
     <ClCompile Include="Chara.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="setup.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="Chara.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

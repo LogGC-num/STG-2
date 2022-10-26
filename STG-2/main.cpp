@@ -10,12 +10,15 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		bomb[i] = Bomb();
 	}
 	Chara chara = Chara();
+	UI ui = UI();
 
 	int cnt = 0;
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0 && gpUpdateKey() == 0) {
 		Update();
 		Draw();
 		clsDx();
+		ui.draw_UIbox();
+
 		if (cnt % 30 == 0) {
 			POS makepos = { 300,100 };
 			make_circle(bomb, makepos, 32, BOMB_SPEED_TYPE_SLOWER, BOMB_ANGLE_TYPE_CIRCLE,1);
@@ -31,6 +34,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		}
 
 		chara.draw_chara();
+
 
 		printfDx("%d", cnt);
 		cnt++;

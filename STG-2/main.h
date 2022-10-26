@@ -3,6 +3,7 @@
 #include "DxLib.h"
 #include "Bomb.h"
 #include "Chara.h"
+#include "UI.h"
 
 #define BOMB_MAX			1000		//’e–‹‚ÌÅ‘å—Ê
 
