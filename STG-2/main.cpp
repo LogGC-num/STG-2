@@ -9,6 +9,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	for (int i = 0; i < BOMB_MAX; i++) {
 		bomb[i] = Bomb();
 	}
+	Chara chara = Chara();
 
 	int cnt = 0;
 	while (ScreenFlip() == 0 && ProcessMessage() == 0 && ClearDrawScreen() == 0 && gpUpdateKey() == 0) {
@@ -28,6 +29,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			bomb[i].draw_bomb();
 			bomb[i].move_bomb();
 		}
+
+		chara.draw_chara();
+
 		printfDx("%d", cnt);
 		cnt++;
 		Wait();

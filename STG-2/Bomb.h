@@ -1,8 +1,6 @@
 #pragma once
 #include "main.h"
 
-
-
 #define DEFAULT_BOMB_SIZE	10
 #define	BOMB_TYPE_CIRCLE	0
 #define DEFAULT_BOMB_SPEED	10

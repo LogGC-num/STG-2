@@ -2,6 +2,7 @@
 #include <math.h>
 #include "DxLib.h"
 #include "Bomb.h"
+#include "Chara.h"
 
 #define BOMB_MAX			1000		//’e–‹‚ÌÅ‘å—Ê
 

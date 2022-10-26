@@ -1,7 +1,5 @@
 #include "Bomb.h"
 
-
-
 extern int cWhite;
 
 //このプログラムの座標系の話
