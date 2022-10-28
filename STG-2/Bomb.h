@@ -2,19 +2,39 @@
 #include "main.h"
 
 #define DEFAULT_BOMB_SIZE	10
+
 #define	BOMB_TYPE_CIRCLE	0
+#define BOMB_TYPE_QUAD		1
+#define	BOMB_TYPE_TRIANGLE	2
+
 #define DEFAULT_BOMB_SPEED	10
 
+/*
+typedef struct _xy {
+	double x;
+	double y;
+}POS;
+*/
+
+//構造体 POS を別ファイルでも使用できるようにする
+#ifndef _POS_DEFINED
+#define _POS_DEFINED
 typedef struct _xy {
 	double x;
 	double y;
 }POS;
 
+#endif
+
+#ifndef _TYPE_DEFINED
+#define _TYPE_DEFINED
 typedef struct _type {
 	int bomb;
 	int angle;
 	int speed;
 }TYPE;
+#endif
+
 
 class Bomb
 {
@@ -28,11 +48,12 @@ public:
 	double time;			//弾幕内の時間
 	TYPE type;				//弾幕の種類	
 
-	Bomb();					//コンストラクタでメンバを初期化
-	void draw_bomb();		//弾幕を表示
-	void set_angle();		//時間によってangleが変化するときに用いる
-	void set_speed();		//時間によってspeedが変化するときに用いる
-	void move_bomb();		//vecを用いてposを変更
+	Bomb();						//コンストラクタでメンバを初期化 引数で弾幕の形を指定
+	void draw_bomb();			//弾幕を表示
+	void set_angle();			//時間によってangleが変化するときに用いる
+	void set_speed();			//時間によってspeedが変化するときに用いる
+	void set_bomb_type(int);	//弾幕の形の変化
+	void move_bomb();			//vecを用いてposを変更
 	void draw_debug_bomb();
 
 private:
