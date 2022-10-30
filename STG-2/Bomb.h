@@ -9,6 +9,9 @@
 
 #define DEFAULT_BOMB_SPEED	10
 
+#define OUT_FIELD_MAX		750
+#define OUT_FIELD_MIN		-250
+
 /*
 typedef struct _xy {
 	double x;
@@ -36,6 +39,8 @@ typedef struct _type {
 #endif
 
 
+
+
 class Bomb
 {
 public:
@@ -47,6 +52,8 @@ public:
 	int size;				//弾幕の大きさ
 	double time;			//弾幕内の時間
 	TYPE type;				//弾幕の種類	
+	int max_time;			//弾幕が存在する最大時間
+	int reverse;
 
 	Bomb();						//コンストラクタでメンバを初期化 引数で弾幕の形を指定
 	void draw_bomb();			//弾幕を表示
@@ -54,7 +61,9 @@ public:
 	void set_speed();			//時間によってspeedが変化するときに用いる
 	void set_bomb_type(int);	//弾幕の形の変化
 	void move_bomb();			//vecを用いてposを変更
-	void draw_debug_bomb();
+	void draw_debug_bomb();	
+	void check_hit(POS);		//キャラに当たったかどうか
+	bool check_out_field();		//弾幕が範囲外へ行ったら弾幕を消す
 
 private:
 	void get_angle();		//時間によってangleが変化するときに用いる

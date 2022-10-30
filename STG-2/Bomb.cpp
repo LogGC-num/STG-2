@@ -20,6 +20,8 @@ Bomb::Bomb() {
 	type.bomb = 0;
 	type.angle = 0;
 	type.speed = 0;
+	max_time = 0;
+	reverse = 0;
 }
 
 void Bomb::set_bomb_type(int type_bomb) {
@@ -47,16 +49,16 @@ void Bomb::get_angle(){
 		
 	case BOMB_ANGLE_TYPE_CIRCLE:
 		if (time < 1)
-			angle += (TAU / 4) * 0.05 * time;
+			angle += (TAU / 4) * 0.05 * time * reverse;
 		else
-			angle += (TAU / 32) * 0.05;
+			angle += (TAU / 32) * 0.05 * reverse;
 		break;
 		
 	case BOMB_ANGLE_TYPE_CIRCLE_R:
 		if (time < 1)
-			angle += (TAU / 4) * -0.05 * time;
+			angle += (TAU / 4) * -0.05 * time * reverse;
 		else
-			angle += (TAU / 32) * -0.05;
+			angle += (TAU / 32) * -0.05 * reverse;
 		break;
 	case BOMB_ANGLE_TYPE_SAME:
 		
@@ -118,6 +120,15 @@ void Bomb::move_bomb() {
 		pos.x += vec.x;
 		pos.y += vec.y;
 		time += 0.01;
+		isUse = check_out_field();
+		if (max_time < time)	isUse = false;
+	}
+	else {
+		vec.x = 0;
+		vec.y = 0;
+		angle = TAU / 8;
+		size = DEFAULT_BOMB_SIZE;
+		time = 0;
 	}
 }
 
@@ -129,6 +140,20 @@ void Bomb::draw_debug_bomb() {
 	DrawFormatString(500, 60, cWhite, "time : %f", time);
 }
 
+void Bomb::check_hit(POS chara_pos) {
+
+}
+
+//FIELD“à‚É‚¨‚³‚Ü‚Á‚Ä‚¢‚é‚È‚ç‚Îtrue ‚»‚¤‚Å‚È‚¢‚È‚çfalse‚ð•Ô‚·
+bool Bomb::check_out_field() {
+	if (OUT_FIELD_MIN <= pos.x && pos.x <= OUT_FIELD_MAX && OUT_FIELD_MIN <= pos.y && pos.y <= OUT_FIELD_MAX) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 //Bomb ‰ŠúˆÊ’u —Ê ‘¬“x‚Ì•Ï‰»—Ê(time“–‚½‚è) Šp“x‚Ì•Ï‰»—Ê(time“–‚½‚è) ”½“](1 or -1)
 void make_circle(Bomb bomb[BOMB_MAX],POS pos,int amount, int change_speed, int change_angle,int reverse) {
 	int cnt_amount = 0;
@@ -138,9 +163,12 @@ void make_circle(Bomb bomb[BOMB_MAX],POS pos,int amount, int change_speed, int c
 				bomb[i].isUse = true;
 				bomb[i].pos.x = pos.x;
 				bomb[i].pos.y = pos.y;
-				bomb[i].angle += (TAU / amount) * cnt_amount * reverse;
+				bomb[i].angle += (TAU / amount) * cnt_amount;
 				bomb[i].type.angle = change_angle;
 				bomb[i].type.speed = change_speed;
+				bomb[i].set_bomb_type(BOMB_TYPE_CIRCLE);
+				bomb[i].max_time = 20;
+				bomb[i].reverse = reverse;
 				cnt_amount++;
 			}
 			if (cnt_amount == amount)	break;
